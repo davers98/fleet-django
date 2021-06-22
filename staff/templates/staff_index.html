@@ -22,8 +22,8 @@
             <div class="border-end bg-white" id="sidebar-wrapper">
                 <div class="sidebar-heading border-bottom bg-light">Fleet Management</div>
                 <div class="list-group list-group-flush">
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Dashboard</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Request Trip</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'staff:staff' %}">Dashboard</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'staff:staff_request' %}">Request Trip</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Trip History</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Profile</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Status</a>
@@ -48,7 +48,13 @@
 {#                                <li class="nav-item active"><a class="nav-link" href="#!">Home</a></li>#}
 {#                                <li class="nav-item"><a class="nav-link" href="#!">Link</a></li>#}
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">User</a>
+                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                       {% if user.is_authenticated %}
+                                        {{ user.username }}
+                                        {% else %}
+                                           User
+                                        {% endif %}
+                                    </a>
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" href="#!">Settings</a>
                                         <a class="dropdown-item" href="#!">Logout</a>
@@ -62,36 +68,36 @@
                 </nav>
                 <!-- Page content-->
                 <div class="container-fluid">
-                    <form method="POST" style="margin-top: 50px; padding: 10px;" >
-                        {% csrf_token %}
-
-                            <div class="row g-3 align-items-center" style="margin-bottom: 10px">
-
-                      <div class="col-auto">
-                        <input type="text" name="staffid" class="form-control" placeholder="Staff ID" >
-                      </div>
-
-                        </div>
-
-                        <div class="row g-3 align-items-center" style="margin-bottom: 10px">
-
-                      <div class="col-auto">
-                        <input type="text" name="tripdetails" class="form-control" placeholder="Trip Details">
-                      </div>
-
-                        </div>
-
-                        <div class="row g-3 align-items-center" style="margin-bottom: 10px">
-
-                      <div class="col-auto">
-                        <input type="date" name="triptime" class="form-control" placeholder="Trip Time" >
-                      </div>
-
-                        </div>
-                            <button type="submit" class="btn btn-primary">Request Trip</button>
-
-
-                    </form>
+{#                    <form method="POST" style="margin-top: 50px; padding: 10px;" >#}
+{#                        {% csrf_token %}#}
+{##}
+{#                            <div class="row g-3 align-items-center" style="margin-bottom: 10px">#}
+{##}
+{#                      <div class="col-auto">#}
+{#                        <input type="text" name="staffid" class="form-control" placeholder="Staff ID" >#}
+{#                      </div>#}
+{##}
+{#                        </div>#}
+{##}
+{#                        <div class="row g-3 align-items-center" style="margin-bottom: 10px">#}
+{##}
+{#                      <div class="col-auto">#}
+{#                        <input type="text" name="tripdetails" class="form-control" placeholder="Trip Details">#}
+{#                      </div>#}
+{##}
+{#                        </div>#}
+{##}
+{#                        <div class="row g-3 align-items-center" style="margin-bottom: 10px">#}
+{##}
+{#                      <div class="col-auto">#}
+{#                        <input type="date" name="triptime" class="form-control" placeholder="Trip Time" >#}
+{#                      </div>#}
+{##}
+{#                        </div>#}
+{#                            <button type="submit" class="btn btn-primary">Request Trip</button>#}
+{##}
+{##}
+{#                    </form>#}
                     <table class="table table-hover">
                           <thead>
                                 <tr>

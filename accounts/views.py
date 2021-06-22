@@ -1,28 +1,43 @@
-from django.http import HttpResponse
-from django.shortcuts import render
-from accounts.forms import UsersForm
-from accounts.models import Users
-from main.urls import urlpatterns
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
+from accounts.forms import LoginForm
+from django.contrib.auth import get_user_model
+from accounts.models import User
+from django.contrib.auth import login, authenticate
+from django.urls import reverse_lazy
 
 
 # Create your views here.
-def account(request):
-    if request.method == 'POST':
-        form = UsersForm(request.POST)
-        if request.user.is_authenticated:
-            if Users.objects.values_list('transport' == True):
-                return render(request, 'index.html', {})
-            elif Users.objects.values_list('staff' == True):
-                return render(request, 'staff_index.html', {})
-            elif Users.objects.values_list('driver' == True):
-                return render(request, 'driver_index.html', {})
-            elif Users.objects.values_list('humanresource' == True):
-                return render(request, 'hr_index.html', {})
-            elif Users.objects.values_list('gpsa' == True):
-                return render(request, 'gp_index.html', {})
-            elif Users.objects.values_list('workshop' == True):
-                return render(request, 'workshop_index.html', {})
+
+
+def login_view(request):
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = authenticate(request, username=cd['username'], password=cd['password'])
+            if user is not None:
+                login(request, user)
+                type_obj = User.objects.get(username=user)
+
+                if user.is_authenticated and type_obj.user_type == 1:
+                    return HttpResponseRedirect(reverse_lazy('main:transport'))
+
+                elif user.is_authenticated and type_obj.user_type == 2:
+                    return HttpResponseRedirect(reverse_lazy('drivers:driver'))
+
+                elif User.user_type == 3:
+                    return render(request, 'hr_index.html', {})
+
+                elif user.is_authenticated and type_obj.user_type == 4:
+                    return HttpResponseRedirect(reverse_lazy('staff:staff'))
+            else:
+                messages.error(request, "Account is Disabled")
         else:
-            return render(request, 'login.html', {})
+            messages.error(request, 'Wrong Email and Username')
     else:
-        return render(request, 'login.html', {})
+        form = LoginForm()
+
+    return render(request, 'login.html', {})

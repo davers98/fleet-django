@@ -1,4 +1,3 @@
-{% load i18n %}
 {% load static %}
 
 
@@ -18,16 +17,16 @@
         <link rel="stylesheet" href="{% static 'dist/css/styles.css' %}"  />
     </head>
     <body>
-
-        <div class="d-flex" class="container" id="wrapper">
+        <div class="d-flex" id="wrapper">
             <!-- Sidebar-->
             <div class="border-end bg-white" id="sidebar-wrapper">
                 <div class="sidebar-heading border-bottom bg-light">Fleet Management</div>
                 <div class="list-group list-group-flush">
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'drivers:driver' %}">Dashboard</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'drivers:trip' %}">Trips</a>
-                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'drivers:inspection' %}">Pre-Trip Inspection</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'drivers:refilling' %}">Re-Filling Request</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'main:transport' %}">Dashboard</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'main:requests' %}">Requests</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Drivers</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'main:status' %}">Vehicle Status</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Filling</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Maintenance</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Profile</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Status</a>
@@ -66,15 +65,64 @@
                 </nav>
                 <!-- Page content-->
                 <div class="container-fluid">
-                    <h1 class="mt-4">Uwanjaa</h1>
+                <form method="POST" style="margin-top: 50px; padding: 10px;" >
+                        {% csrf_token %}
+
+                            <div class="row g-3 align-items-center" style="margin-bottom: 10px">
+
+                      <div class="col-auto">
+{#                          {% if user.is_authenticated %}#}
+                        <input type="text" name="vehicle" class="form-control" placeholder="vehicle"  >
+{#                          {% endif %}#}
+                      </div>
+
+                        </div>
+
+                        <div class="row g-3 align-items-center" style="margin-bottom: 10px">
+
+                      <div class="col-auto">
+                        <input type="text" name="status" class="form-control" placeholder="Status">
+                      </div>
+
+                        </div>
+
+                        <div class="row g-3 align-items-center" style="margin-bottom: 10px">
+
+                      <div class="col-auto">
+                        <input type="text" name="assigned" class="form-control" placeholder="Assigned Driver" >
+                      </div>
+
+                        </div>
+                            <button type="submit" class="btn btn-primary">Update</button>
 
 
+                    </form>
+                      <table class="table table-hover">
+                          <thead>
+                                <tr>
+                                  <th scope="col">Vehicle</th>
+                                  <th scope="col">Status</th>
+                                  <th scope="col">Assigned Driver</th>
+
+
+                                </tr>
+                              </thead>
+                              <tbody>
+                               {% for obj in trips %}
+                       <tr>
+{#                                  <th scope="row">{{ obj.id }}</th>#}
+                                  <td>{{ obj.vehicle }}</td>
+                                  <td><a href="{% url 'main:edit_status' obj.id %}">{{ obj.status }}</a></td>
+                                  <td>{{ obj.assigned }}</td>
+{#                           <td> <a href="{% url 'main:edit_request' obj.id %}">{{ obj.driver }}</a></td>#}
+                                </tr>
+                    {% endfor %}
+
+  ...
+                </table>
                 </div>
             </div>
         </div>
-
-
-
         <!-- Bootstrap core JS-->
         <script>
 function myFunction(x) {
