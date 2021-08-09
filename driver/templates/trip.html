@@ -1,72 +1,68 @@
-{% load i18n %}
-{% load static %}
+{% extends 'basedr.html' %}
 
+{% block title %}
+    <title>Driver Trips | FMS </title>
+{% endblock %}
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Fleet</title>
-
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-
-        <link rel="stylesheet" href="{% static 'dist/css/styles.css' %}"  />
-    </head>
-    <body>
-
-        <div class="d-flex" class="container" id="wrapper">
-            <!-- Sidebar-->
-            <div class="border-end bg-white" id="sidebar-wrapper">
-                <div class="sidebar-heading border-bottom bg-light">Fleet Management</div>
-                <div class="list-group list-group-flush">
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'drivers:driver' %}">Dashboard</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'drivers:trip' %}">Trips</a>
-                   <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'drivers:inspection' %}">Pre-Trip Inspection</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'drivers:refilling' %}">Re-Filling Request</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Maintenance</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Profile</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Status</a>
-                </div>
-            </div>
-            <!-- Page content wrapper-->
-            <div id="page-content-wrapper">
-                <!-- Top navigation-->
-                <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                    <div class="container-fluid">
-                        <button class="btn btn-primary" id="sidebarToggle">
-{#                            <div class="container" id="sidebarToggle" onclick="myFunction(this)">#}
-{#                                  <div class="bar1"></div>#}
-{#                                  <div class="bar2"></div>#}
-{#                                  <div class="bar3"></div>#}
-{#                            </div>#}
-                        </button>
-
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-{#                                <li class="nav-item active"><a class="nav-link" href="#!">Home</a></li>#}
-{#                                <li class="nav-item"><a class="nav-link" href="#!">Link</a></li>#}
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">User</a>
-                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="#!">Settings</a>
-                                        <a class="dropdown-item" href="#!">Logout</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#!">Status:</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
+{% block content %}
                 <!-- Page content-->
                 <div class="container-fluid">
-                     <table class="table table-hover">
+                <div id='map' style='width: 100%; height: 300px;'></div>
+
+                    <script>
+
+
+                      window.addEventListener("DOMContentLoaded", function () {
+  // (B1) INSERT ACCESS TOKEN HERE!
+                   mapboxgl.accessToken = 'pk.eyJ1IjoiaWRhdmVyczk4IiwiYSI6ImNrcXBzZWxmczA4Mm8ydnEzMXR3emt3eXcifQ.d-QVNcLt_5acuWmgUpBPTA';
+
+                  navigator.geolocation.getCurrentPosition(
+                    // (B2) ON SUCCESSFULLY GETTING GPS COORDINATES
+                    function (pos) {
+                      // DRAW MAP
+                      let map = new mapboxgl.Map({
+                        container: 'map',
+                        style: 'mapbox://styles/mapbox/streets-v11',
+                        center: [pos.coords.longitude, pos.coords.latitude],
+                        zoom: 13
+                      });
+                      // DRAW MARKER
+                      let marker = new mapboxgl.Marker()
+                        .setLngLat([pos.coords.longitude, pos.coords.latitude])
+
+                        .addTo(map);
+                      console.log(pos.coords.longitude)
+                        console.log(pos.coords.latitude)
+                    },
+
+                    // (B3) ON FAILING TO GET GPS COORDINATES
+                    function (err) {
+                      console.log(err);
+                    },
+
+                    // (B4) GPS OPTIONS
+                    {
+                      enableHighAccuracy: true,
+                      timeout: 1000,
+                      maximumAge: 0,
+                      trackUserLocation: true
+                    }
+
+
+                  );
+                });
+
+                    </script>
+
+                <div>
+                    <button onclick="main()">Start Trip</button>
+                </div>
+
+                         <div class="card">
+
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
                           <thead>
                                 <tr>
                                   <th scope="col">ID</th>
@@ -83,8 +79,19 @@
                                   <td>{{ obj.driver_id }}</td>
                                   <td>{{ obj.status }}</td>
                                   <td>{{ obj.staff_id }}</td>
+                                    <td>{{ obj.date }}</td>
                                 </tr>
                     {% endfor %}
+                              </tbody>
+                <tfoot>
+                <tr>
+                    <th scope="col">ID</th>
+                                  <th>Driver ID</th>
+                                  <th>Status</th>
+                                  <th>Staff Assigned</th>
+                                    <th>Date of Request</th>
+                </tr>
+                </tfoot>
 
   ...
                 </table>
@@ -95,15 +102,6 @@
         </div>
 
 
-
+{% endblock %}
         <!-- Bootstrap core JS-->
-        <script>
-function myFunction(x) {
-  x.classList.toggle("change");
-}
-</script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="{% static "dist/js/scripts.js" %}"></script>
-    </body>
-</html>
+

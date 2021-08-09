@@ -1,0 +1,60 @@
+{% extends 'basehr.html' %}
+
+{% block title %}
+    <title>Refill | FMS</title>
+
+{% endblock %}
+
+{% block content %}
+
+<!-- Page content-->
+                <div class="container-fluid">
+                        <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                          <thead>
+                                <tr>
+                                        <th>Number</th>
+                                        <th>Date</th>
+                                        <th>Approved By(T.O)</th>
+                                        <th>Fuel</th>
+                                        <th>Liters</th>
+                                        <th>Vehicle</th>
+                                        <th>Approved By(H.R)</th>
+
+                                </tr>
+                              </thead>
+                              <tbody>
+                               {% for obj in ref %}
+                                   {% if obj.number != '' and obj.approved != '' %}
+                       <tr>
+                                    <td>{{ obj.number }}</td>
+                                    <td>{{ obj.date }}</td>
+                                    <td>{{ obj.approved }}</td>
+                                    <td>{{ obj.fuel }}</td>
+                                    <td>{{ obj.liters }}</td>
+                                    <td>{{ obj.vehicle }}</td>
+                                    <td><a href="{% url 'hr:edit_request' obj.id %}">{{ obj.status }}</a></td>
+
+                                </tr>
+                                   {% endif %}
+                    {% endfor %}
+                              </tbody>
+                <tfoot>
+                <tr>
+                                        <th>Number</th>
+                                        <th>Date</th>
+                                        <th>Approved By(T.O)</th>
+                                        <th>Fuel</th>
+                                        <th>Liters</th>
+                                        <th>Vehicle</th>
+                                        <th>Approved By(H.R)</th>
+                </tr>
+                </tfoot>
+
+
+                </table>
+                </div>
+            </div>
+
+        <!-- Bootstrap core JS-->
+ {% endblock %}

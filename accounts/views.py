@@ -28,11 +28,14 @@ def login_view(request):
                 elif user.is_authenticated and type_obj.user_type == 2:
                     return HttpResponseRedirect(reverse_lazy('drivers:driver'))
 
-                elif User.user_type == 3:
-                    return render(request, 'hr_index.html', {})
+                elif user.is_authenticated and type_obj.user_type == 3:
+                    return HttpResponseRedirect(reverse_lazy('hr:human'))
 
                 elif user.is_authenticated and type_obj.user_type == 4:
                     return HttpResponseRedirect(reverse_lazy('staff:staff'))
+
+                elif user.is_authenticated and type_obj.user_type == 5:
+                    return HttpResponseRedirect(reverse_lazy('workshop:workshop'))
             else:
                 messages.error(request, "Account is Disabled")
         else:

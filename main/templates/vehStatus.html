@@ -1,136 +1,275 @@
-{% load static %}
+{% extends 'basetr.html' %}
 
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
+        {% block title %}
         <title>Fleet</title>
+        {% endblock %}
 
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Core theme CSS (includes Bootstrap)-->
 
-        <link rel="stylesheet" href="{% static 'dist/css/styles.css' %}"  />
-    </head>
-    <body>
-        <div class="d-flex" id="wrapper">
-            <!-- Sidebar-->
-            <div class="border-end bg-white" id="sidebar-wrapper">
-                <div class="sidebar-heading border-bottom bg-light">Fleet Management</div>
-                <div class="list-group list-group-flush">
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'main:transport' %}">Dashboard</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'main:requests' %}">Requests</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Drivers</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'main:status' %}">Vehicle Status</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Filling</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Maintenance</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Profile</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Status</a>
-                </div>
-            </div>
-            <!-- Page content wrapper-->
-            <div id="page-content-wrapper">
-                <!-- Top navigation-->
-                <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                    <div class="container-fluid">
-                        <button class="btn btn-primary" id="sidebarToggle">
-{#                            <div class="container" id="sidebarToggle" onclick="myFunction(this)">#}
-{#                                  <div class="bar1"></div>#}
-{#                                  <div class="bar2"></div>#}
-{#                                  <div class="bar3"></div>#}
-{#                            </div>#}
-                        </button>
-
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-{#                                <li class="nav-item active"><a class="nav-link" href="#!">Home</a></li>#}
-{#                                <li class="nav-item"><a class="nav-link" href="#!">Link</a></li>#}
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">User</a>
-                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="#!">Settings</a>
-                                        <a class="dropdown-item" href="#!">Logout</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#!">Status:</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-                <!-- Page content-->
+            {% block content %}
                 <div class="container-fluid">
-                <form method="POST" style="margin-top: 50px; padding: 10px;" >
-                        {% csrf_token %}
 
-                            <div class="row g-3 align-items-center" style="margin-bottom: 10px">
 
-                      <div class="col-auto">
-{#                          {% if user.is_authenticated %}#}
-                        <input type="text" name="vehicle" class="form-control" placeholder="vehicle"  >
-{#                          {% endif %}#}
-                      </div>
+<!-- Button trigger modal -->
+                <div class="card-body">
+                   <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+                  Add Vehicle
+                </button>
+                </div>
 
+                        <!-- Modal -->
+             <div class="modal fade" id="modal-default">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Add Vehicle</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="" method="POST" class="form  clearfix newform">
+                                            {% csrf_token %}
+
+                            <div class="row">
+                                        <div class="col-sm-6">
+                                          <!-- text input -->
+                                          <div class="form-group">
+                                            <label for="licence">Licence</label>
+                                            <input type="text" name="licence" id="licence" class="form-control" placeholder="Enter ...">
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                          <div class="form-group">
+                                            <label for="type">Body Type</label>
+                                            <input type="text" name="type" id="type" class="form-control" placeholder="Enter ...">
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="row">
+                                        <div class="col-sm-6">
+                                          <!-- text input -->
+                                          <div class="form-group">
+                                            <label for="vmake">Make</label>
+                                            <input type="text" name="make" id="vmake" class="form-control" placeholder="Enter ...">
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                          <div class="form-group">
+                                            <label for="vmodel">Model</label>
+                                            <input type="text" name="vmodel" id="vmodel" class="form-control" placeholder="Enter ...">
+                                          </div>
+                                        </div>
+                                      </div>
+                                     <div class="row">
+                                        <div class="col-sm-6">
+                                          <!-- text input -->
+                                          <div class="form-group">
+                                            <label for="vyear">Year</label>
+                                            <input type="text" name="year" id="vyear" class="form-control" placeholder="Enter ...">
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                          <div class="form-group">
+                                            <label for="vfuel">Tank Capacity</label>
+                                            <input type="text" name="tank" id="vfuel" class="form-control" placeholder="Enter ..." >
+                                          </div>
+                                        </div>
+                                      </div>
+
+
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                <label for="facility_opt">Vehicle Transmission</label>
+                                <select class="form-control" id="facility_opt" name="trans">
+                                    <option value="" disabled selected>Transmission</option>
+                                    <option>Automatic</option>
+                                    <option>Manual</option>
+
+                                </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                <label for="facility_opt">Vehicle Fuel</label>
+                                <select class="form-control" id="facility_opt" name="fuel">
+                                    <option value="" disabled selected>Fuel Type</option>
+                                    <option>Petrol</option>
+                                    <option>Diesel</option>
+
+                                </select>
+                                    </div>
+                                </div>
+
+                             </div>
+
+
+                            <div class="row">
+                                 <div class="col-sm-6">
+                             <div class="form-group">
+                                <label for="vfuel">Milleage</label>
+                                <input type="text" name="milleage" id="vfuel" class="form-control" placeholder="Milleage" required>
+                             </div>
+                                 </div>
+
+                                 <div class="col-sm-6">
+                             <div class="form-group">
+                                <label for="vfuel">Last Refill</label>
+                                <input type="date" name="refill" id="vfuel" class="form-control" placeholder="Last Refill" required>
+                             </div>
+                                 </div>
+
+                                </div>
+
+
+                            <div class="row">
+
+                                <div class="col-sm-6">
+                             <div class="form-group">
+                                <label for="vcolor">Colour</label>
+                                <input type="color" name="vcolor" class="form-control" id="vcolor"
+                                 placeholder="" required>
+                                 </div>
+                           </div>
+
+
+                                <div class="col-sm-6">
+                             <div class="form-group">
+                                <label for="vseat">Seating Capacity</label>
+                                <input type="tel" name="vseat" id="vseat"
+                                 placeholder="20" class="form-control" maxlength="2" required>
+                                 </div>
+                           </div>
+                                </div>
+
+
+                            <div class="row">
+                            <div class="col-sm-6">
+                             <div class="form-group">
+                                <label for="vmaint">Next Maintentance</label>
+                                <input type="date" name="vmaint" id="vmaint"
+                                 placeholder="" required>
+                             </div>
+                            </div>
+                            <br>
+
+                        <div class="col-sm-6">
+                             <div class="form-group">
+                                <label for="">Driver Status: </label>
+                                <div class="radio-group">
+                                    <label for="status-available">Available</label>
+                                    <input type="radio" id="status-available" name="status" value="available" checked>
+                                    <label for="status-unavailable">Unavailable</label>
+                                    <input type="radio" name="status" id="status-unavailable" value="unavailable">
+                                </div>
+                             </div>
                         </div>
-
-                        <div class="row g-3 align-items-center" style="margin-bottom: 10px">
-
-                      <div class="col-auto">
-                        <input type="text" name="status" class="form-control" placeholder="Status">
-                      </div>
-
-                        </div>
-
-                        <div class="row g-3 align-items-center" style="margin-bottom: 10px">
-
-                      <div class="col-auto">
-                        <input type="text" name="assigned" class="form-control" placeholder="Assigned Driver" >
-                      </div>
-
-                        </div>
-                            <button type="submit" class="btn btn-primary">Update</button>
+                                </div>
 
 
-                    </form>
-                      <table class="table table-hover">
-                          <thead>
-                                <tr>
-                                  <th scope="col">Vehicle</th>
-                                  <th scope="col">Status</th>
-                                  <th scope="col">Assigned Driver</th>
+                            <div class="row"></div>
+                            <div class="col-sm-6">
+                             <div class="form-group">
+                                <label for="">Operability </label>
+                                <div class="radio-group">
+                                    <label for="op-operable">Operable</label>
+                                    <input type="radio" id="op-operable" name="op" value="operable" checked>
+                                    <label for="op-inoperable">Inoperable</label>
+                                    <input type="radio" id="op-inoperable" name="op" value="inoperable">
+
+                                </div>
+                             </div>
+                                </div>
 
 
-                                </tr>
-                              </thead>
-                              <tbody>
-                               {% for obj in trips %}
-                       <tr>
-{#                                  <th scope="row">{{ obj.id }}</th>#}
-                                  <td>{{ obj.vehicle }}</td>
-                                  <td><a href="{% url 'main:edit_status' obj.id %}">{{ obj.status }}</a></td>
-                                  <td>{{ obj.assigned }}</td>
-{#                           <td> <a href="{% url 'main:edit_request' obj.id %}">{{ obj.driver }}</a></td>#}
-                                </tr>
-                    {% endfor %}
+                        <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Add Vehicle</button>
+            </div>
+                        </form>
+            </div>
 
-  ...
-                </table>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+
+
+
+                      <div class="card">
+
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>License Plate</th>
+                                        <th>Vehicle Make</th>
+                                        <th>Vehicle Model</th>
+                                        <th>Body Type</th>
+                                        <th>Year</th>
+                                        <th>Capacity</th>
+                                        <th>Fuel</th>
+                                        <th>Transmission</th>
+                                        <th>Maintenance Date</th>
+                                        <th>Availability</th>
+                                        <th>Operability</th>
+                                        <th>Edit</th>
+                                    </tr>
+                                </thead>
+
+
+
+                                <tbody>
+                                 {% for obj in trips %}
+                                    <tr>
+                                        <td>{{ obj.license }}</td>
+                                        <td>{{ obj.manufacturer }}</td>
+                                        <td>{{ obj.model }}</td>
+                                        <td>{{ obj.body }}</td>
+                                        <td>{{ obj.year }}</td>
+                                        <td>{{ obj.seats }}</td>
+                                        <td>{{ obj.fuel_type }}</td>
+                                        <td>{{ obj.transmission }}</td>
+                                        <td>{{ obj.maintenance_record }}</td>
+                                        <td>{{ obj.status }}</td>
+                                        <td>{{ obj.operability }}</td>
+                                        <td>
+                                            <a href="#" class="opt">
+                                                <i class="ion-edit btn-small"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                            {% endfor %}
+
+
+                                </tbody>
+                <tfoot>
+                 <tr>
+                                        <th>License Plate</th>
+                                        <th>Vehicle Make</th>
+                                        <th>Vehicle Model</th>
+                                        <th>Body Type</th>
+                                        <th>Year</th>
+                                        <th>Capacity</th>
+                                        <th>Fuel</th>
+                                        <th>Transmission</th>
+                                        <th>Maintenance Date</th>
+                                        <th>Availability</th>
+                                        <th>Operability</th>
+                                        <th>Edit</th>
+                                    </tr>
+                </tfoot>
+                            </table>
                 </div>
             </div>
         </div>
-        <!-- Bootstrap core JS-->
-        <script>
-function myFunction(x) {
-  x.classList.toggle("change");
-}
-</script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="{% static "dist/js/scripts.js" %}"></script>
-    </body>
-</html>
+        {% endblock %}
+
+
+

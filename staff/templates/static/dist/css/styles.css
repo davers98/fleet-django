@@ -10878,6 +10878,7 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
 .container {
   display: inline-block;
   cursor: pointer;
+    margin-top: auto;
 }
 
 .bar1, .bar2, .bar3 {
@@ -10898,4 +10899,32 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
 .change .bar3 {
   -webkit-transform: rotate(45deg) translate(-8px, -8px);
   transform: rotate(45deg) translate(-8px, -8px);
+}
+
+h2 {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.table-bordered {
+  border: none;
+}
+
+table caption {
+	padding: .5em 0;
+}
+
+@media screen and (max-width: 767px) {
+  table caption {
+    display: none;
+  }
+}
+
+.p {
+  text-align: center;
+  padding-top: 140px;
+  font-size: 14px;
+}
+thead {
+    background: #000000;
 }

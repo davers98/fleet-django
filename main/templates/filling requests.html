@@ -1,0 +1,72 @@
+{% extends 'basetr.html' %}
+
+{% block title %}
+
+    <title>Fleet | Refilling</title>
+{% endblock %}
+
+
+{% block content %}
+                <!-- Page content-->
+                <div class="container-fluid">
+
+                      <div class="card">
+
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                          <thead>
+                                <tr>
+                                  <th>Number</th>
+                                  <th>Date</th>
+                                    <th>Approved By</th>
+                                  <th>Fuel</th>
+                                  <th>Liters</th>
+                                    <th>Vehicle</th>
+                                    <th>Status</th>
+                                    <th>Update</th>
+
+                                </tr>
+                              </thead>
+                              <tbody>
+                               {% for obj in trips %}
+                       <tr>
+                               <td><a href="">{{ obj.number }}</a></td>
+                                      <td>{{ obj.date }}</td>
+                                        <td>{{ obj.approved }}</td>
+                                      <td>{{ obj.fuel }}</td>
+                                       <td>{{ obj.liters }}</td>
+                                        <td>{{ obj.vehicle }}</td>
+                                            <td>{{ obj.status }}</td>
+
+                           <td>
+                                <a href="{% url 'main:edit_filling' obj.id %}" class="opt">
+                                <i class="ion-edit btn-small"></i>
+                                </a>
+                           </td>
+
+                                </tr>
+                    {% endfor %}
+                              </tbody>
+                <tfoot>
+                <tr>
+                                 <th>Number</th>
+                                  <th>Date</th>
+                                    <th>Approved By</th>
+                                  <th>Fuel</th>
+                                  <th>Liters</th>
+                                    <th>Vehicle</th>
+                                    <th>Status</th>
+                                    <th>Update</th>
+                </tr>
+                </tfoot>
+
+  ...
+                </table>
+              </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+        <!-- Bootstrap core JS-->
+{% endblock %}

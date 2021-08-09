@@ -11,5 +11,10 @@ urlpatterns = [
     path('requests', views.requests, name='requests'),
     path('requests/edit/<request_id>', views.edit_request, name='edit_request'),
     path('Vehicle Status/', views.status, name='status'),
-    path('Vehicle Status/edit/<status_id>', views.edit_status, name='edit_status')
+    path('Vehicle Status/edit/<status_id>', views.edit_status, name='edit_status'),
+    path('Filling Requests/', views.filling, name='filling'),
+    path('Filling Requests/edit/<filling_id>', views.edit_filling, name='edit_filling'),
+    path('drivers/', views.driver, name='driver'),
+    path('maintenance/', views.maintenance, name='maintenance'),
+    path('maintenance/edit/<main_id>', views.edit_main, name='edit_main'),
 ]

@@ -1,0 +1,42 @@
+{% extends 'basewr.html' %}
+
+{% block title %}
+    <title> Pending - Fleet</title>
+{% endblock %}
+
+{% block content %}
+
+     <div class="container-fluid">
+                    <h3>Change Status for {{ upd.vehicle }}</h3>
+                    <form method="POST" style="margin-top: 50px; padding: 10px;" >
+                        {% csrf_token %}
+
+
+
+                             <div class="row">
+                                 <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="facility_opt">Update Status</label>
+                                <select id="facility_opt" class="form-control" name="status">
+                                     <option value="" disabled selected>Maintenance Status</option>
+
+                                    <option>Completed</option>
+
+                                </select>
+                                    </div>
+                                 </div>
+                             </div>
+                                <div><button type="submit" class="btn btn-primary">Change Status</button></div>
+
+
+
+                    </form>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+{% endblock %}

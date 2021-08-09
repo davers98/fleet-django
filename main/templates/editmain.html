@@ -1,0 +1,47 @@
+{% extends 'basetr.html' %}
+
+{% block title %}
+    <title>Maintenance | FMS</title>
+{% endblock %}
+
+
+{% block content %}
+                <!-- Page content-->
+                <div class="container-fluid">
+                    <h3>Approve Refilling for {{ main.vehicle }}</h3>
+                    <form method="POST" style="margin-top: 50px; padding: 10px;" >
+                        {% csrf_token %}
+
+
+
+
+                                 <div class="row">
+                                        <div class="col-sm-6">
+                                          <div class="form-group">
+                                <label for="facility_opt">Approved By</label>
+                                <select id="facility_opt" class="form-control" name="transport">
+                                    <option value="" disabled selected>Select</option>
+                                    {% for obj in user %}
+                                        {% if obj.user_type == 1 %}
+                                    <option value="{{ obj.username }}">{{ obj.username }}</option>
+                                        {% endif %}
+                                         {% endfor %}
+                                </select>
+                                          </div>
+                                        </div>
+                                 </div>
+                                <div><button type="submit" class="btn btn-primary">Change Status</button></div>
+
+
+
+                    </form>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+        <!-- Bootstrap core JS-->
+  {% endblock %}

@@ -4,9 +4,9 @@ from driver.models import Vehicle
 
 # Create your models here.
 class VehicleStatus(models.Model):
-    vehicle = models.CharField(max_length=50)
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
     status = models.CharField(max_length=50, default='Available')
     assigned = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.status + self.assigned + self.status
+        return str(self.vehicle) + self.assigned + self.status

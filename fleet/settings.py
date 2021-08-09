@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-wx8b!ck2q13808jjdz8m@@-hf&x2fp!za3viflwo^mk1ta!s0a
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -108,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Dar_es_Salaam'
 
 USE_I18N = True
 
@@ -124,6 +124,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
     'static/',
+    'static/static',
     'main/templates/static/',
     'driver/templates/static/',
     'gpsa/templates/static/',
@@ -142,3 +143,4 @@ print("base dir path", BASE_DIR)
 AUTH_USER_MODEL = 'accounts.User'
 
 LOGIN_REDIRECT_URL = 'main:transport'
+

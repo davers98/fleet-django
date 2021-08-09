@@ -1,0 +1,42 @@
+{% extends 'basehr.html' %}
+
+{% block title %}
+    <title>Refill | FMS</title>
+
+{% endblock %}
+
+{% block content %}
+                <!-- Page content-->
+                <div class="container-fluid">
+
+                    <form method="POST" style="margin-top: 50px; padding: 10px;" >
+                        {% csrf_token %}
+
+
+                                <div class="row">
+                                        <div class="col-sm-6">
+                                          <div class="form-group">
+                                <label for="facility_opt">Status for Filling Request {{ ref.vehicle }}</label>
+                                <select id="facility_opt" class="form-control" name="status">
+                                    <option value="" disabled selected>Status</option>
+                                    <option>Pending</option>
+                                    <option>Approved</option>
+
+                                </select>
+                                          </div>
+                                        </div>
+                                </div>
+                                <div><button type="submit" class="btn btn-primary">Change Status</button></div>
+
+
+
+                    </form>
+
+
+
+
+
+                </div>
+            
+        <!-- Bootstrap core JS-->
+{% endblock %}

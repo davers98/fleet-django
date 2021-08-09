@@ -1,16 +1,24 @@
 from django.db import models
 from staff.models import Request
+from accounts.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from random import randint
 
 
 # Create your models here.
 
-class Assigned(models.Model):
+
+class Driver(models.Model):
     driver_id = models.CharField(max_length=100)
-    status = models.BooleanField(default=True)
-    staff_id = models.CharField(max_length=50)
+    driver_name = models.CharField(max_length=50, default='david')
+    vehicle = models.CharField(max_length=50, blank=True, default='Not Assigned')
+    status = models.CharField(max_length=50)
+    staff_id = models.CharField(max_length=50, blank=True, default='Not Assigned')
+    phone = models.CharField(max_length=50, default='+255716228159')
 
     def __str__(self):
-        return self.driver_id + ' - ' + str(self.status) + ' - ' + str(self.staff_id)
+        return self.driver_id + ' - ' + str(self.status) + ' - ' + str(self.staff_id) + ' - ' + self.phone
 
 
 class Vehicle(models.Model):
@@ -22,13 +30,26 @@ class Vehicle(models.Model):
 
     class Status(models.TextChoices):
         available = 'Available'
-        onTrip = 'On Trip'
-        garage = 'Garage'
+        unavailable = 'Unavailable'
+
+    class Trans(models.TextChoices):
+        manual = 'Manual'
+        auto = 'Auto'
+
+    class Operability(models.TextChoices):
+        operable = 'Operable'
+        inoperable = 'Inoperable'
 
     manufacturer = models.CharField(max_length=50)
     model = models.CharField(max_length=50)
-    license_plate = models.CharField(max_length=50, unique=True)
+    license = models.CharField(max_length=50, unique=True)
     fuel_type = models.CharField(max_length=50, choices=Fuel.choices, default=Fuel.petrol)
+    year = models.CharField(max_length=50)
+    transmission = models.CharField(max_length=50, choices=Trans.choices, default=Trans.auto)
+    color = models.CharField(max_length=50)
+    seats = models.CharField(max_length=50)
+    body = models.CharField(max_length=50)
+    operability = models.CharField(max_length=50, choices=Operability.choices, default=Operability.operable)
     maintenance_record = models.CharField(max_length=50)
     status = models.CharField(max_length=50, choices=Status.choices, default=Status.available)
     tank = models.CharField(max_length=50, default=80)
@@ -37,47 +58,84 @@ class Vehicle(models.Model):
 
     def __str__(self):
         return (self.manufacturer + ' - ' + str(
-            self.model) + ' - ' + self.license_plate + ' - ' + self.fuel_type + ' - ' + self.maintenance_record
-                + ' - ' + self.status + ' - ' + self.tank + ' - ' + self.last_refill + ' - ' + self.mileage)
+            self.model) + ' - ' + self.license + ' - ' + self.fuel_type + ' - ' + self.maintenance_record
+                + ' - ' + self.status + ' - ' + self.tank + ' - ' + self.last_refill + ' - ' + self.mileage + ' - ' + self.year
+                + ' - ' + self.operability + ' - ' + self.seats + ' - ' + self.year)
 
 
 class Inspection(models.Model):
-    license_plate = models.ForeignKey(Vehicle, on_delete=models.SET_NULL, null=True, blank=True)
-    driver_seat = models.CharField(max_length=50)
-    horn = models.CharField(max_length=50)
-    steering = models.CharField(max_length=50)
-    brakes = models.CharField(max_length=50)
-    indicators = models.CharField(max_length=50)
-    speedometer = models.CharField(max_length=50)
-    wipers = models.CharField(max_length=50)
-    body_interior = models.CharField(max_length=50)
-    extinguisher = models.CharField(max_length=50)
-    first_aid = models.CharField(max_length=50)
-    floor_traps = models.CharField(max_length=50)
-    # hammers = models.CharField(max_length=50)
-    emergency = models.CharField(max_length=50)
-    passenger_door = models.CharField(max_length=50)
-    mirrors = models.CharField(max_length=50)
-    body_exterior = models.CharField(max_length=50)
-    discs = models.CharField(max_length=50)
-    inflation = models.CharField(max_length=50)
-    spare_wheel = models.CharField(max_length=50)
-    fixing = models.CharField(max_length=50)
-    engine = models.CharField(max_length=50)
-    # engine_water = models.CharField(max_length=50)
-    # fuel = models.CharField(max_length=50)
-    battery = models.CharField(max_length=50)
-    exhaust = models.CharField(max_length=50)
-    reflectors = models.CharField(max_length=50)
-    lice_plate_condition = models.CharField(max_length=50)
+    license = models.CharField(max_length=50)
+    driver = models.CharField(max_length=50, default='User')
+    date = models.CharField(max_length=50, blank=True)
+    odometer = models.CharField(max_length=100, default=0)
+
     defect = models.TextField(max_length=255, blank=True)
-    action = models.TextField(max_length=255, blank=True)
 
     def __str__(self):
         return (
-                self.driver_seat_belt + self.horn + self.steering + self.brakes + self.indicators + self.speedometer +
-                self.wipers + self.body_exterior + self.extinguisher + self.first_aid + self.floor_traps + self.hammers
+                self.driver_seat + self.horn + self.steering + self.brakes + self.indicators + self.speedometer +
+                self.wipers + self.body_exterior + self.extinguisher + self.first_aid + self.floor_traps
                 + self.emergency + self.passenger_door
-                + self.mirrors + self.body_exterior + self.discs + self.glass + self.glass + self.spare_wheel
-                + self.tyres + self.engine_oil + self.engine_water + self.fuel + self.battery
-                + self.exhaust + self.reflectors + self.lice_plate_condition + int(self.defect) + int(self.action))
+                + self.mirrors + self.body_exterior + self.discs + self.spare_wheel
+                + self.inflation + self.engine + self.fixing + self.battery
+                + self.exhaust + self.reflectors + self.lice_plate_condition + str(self.defect) + str(self.action))
+
+
+class Refilling(models.Model):
+    class Status(models.TextChoices):
+        approved = 'Approved'
+        pending = 'Pending'
+
+    driver = models.CharField(max_length=50)
+    number = models.CharField(max_length=60)
+    date = models.DateTimeField(auto_now=True)
+    towards = models.CharField(max_length=60)
+    fuel = models.CharField(max_length=60)
+    liters = models.CharField(max_length=60)
+    vehicle = models.CharField(max_length=50)
+    approved = models.CharField(max_length=50, blank=True)
+    status = models.CharField(max_length=60, choices=Status.choices, default=Status.pending)
+
+    def __str__(self):
+        return self.number + str(self.date) + self.fuel + self.liters + str(self.vehicle)
+
+
+class Maintainance(models.Model):
+    class Status(models.TextChoices):
+        planned = 'Planned'
+        nonplanned = 'Non-Planned'
+
+    vehicle = models.CharField(max_length=50)
+    driver = models.CharField(max_length=50)
+    description = models.CharField(max_length=255)
+    mtype = models.CharField(max_length=50,)
+    date = models.CharField(max_length=50, blank=True)
+    transport = models.CharField(max_length=50, blank=True)
+    status = models.CharField(max_length=50, blank=True)
+
+
+class MajorMaintainance(models.Model):
+    class Status(models.TextChoices):
+        approved = 'Approved'
+        pending = 'Pending'
+
+    vehicle = models.CharField(max_length=50)
+    spare = models.CharField(max_length=50)
+    cost = models.CharField(max_length=50)
+    status = models.CharField(max_length=50, choices=Status.choices, default=Status.pending)
+    human = models.CharField(max_length=50)
+
+
+class RandomRefill(models.Model):
+    user = models.OneToOneField(User,
+                                on_delete=models.CASCADE,
+                                primary_key=True)
+
+    @staticmethod
+    def radrefill():
+        return str(randint(0, 2207))
+
+    @receiver(post_save, sender=User)
+    def create_latest_inputs(sender, instance, created, **kwargs):
+        if created:
+            RandomRefill.objects.create(user=instance)

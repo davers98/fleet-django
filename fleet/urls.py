@@ -10,7 +10,7 @@ urlpatterns = [
     path('hr/', include('humanresource.urls', namespace='hr')),
     path('gpsa/', include('gpsa.urls')),
     path('staff/', include('staff.urls', namespace='staff')),
-    path('workshop/', include('workshop.urls')),
+    path('workshop/', include('workshop.urls', namespace='workshop')),
 
 
 ]
