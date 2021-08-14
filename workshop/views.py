@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from driver.models import Maintainance
-from driver.forms import MaintenanceForm
+from workshop.models import Maintainance
+from workshop.forms import MaintenanceForm
 
 
 # Create your views here.
@@ -32,3 +32,12 @@ def update_status(request, pending_id):
         upd_obj = Maintainance.objects.get(pk=pending_id)
 
         return render(request, 'editstatus.html', {'upd': upd_obj})
+
+
+def major(request):
+    maj = Maintainance.objects.all()
+    return render(request, 'majormaintain.html', {'maj': maj})
+
+
+def requests(request, request_id):
+    return render(request, 'editmajor.html', {})

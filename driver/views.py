@@ -1,12 +1,13 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
-from driver.models import Inspection, Refilling, Driver, Vehicle, Maintainance
+from driver.models import Inspection, Refilling, Driver, Vehicle
 from accounts.decorators import driver_required
 from django.http import HttpResponse
-from driver.forms import InspectionForm, RefillingForm, MaintenanceForm
+from driver.forms import InspectionForm, RefillingForm
 from staff.models import Request
-
+from workshop.models import Maintainance
+from workshop.forms import MaintenanceForm
 
 # Create your views here.
 

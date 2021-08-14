@@ -1,5 +1,5 @@
 from django import forms
-from driver.models import Inspection, Refilling, Maintainance
+from driver.models import Inspection, Refilling
 
 
 class InspectionForm(forms.ModelForm):
@@ -14,7 +14,4 @@ class RefillingForm(forms.ModelForm):
         fields = '__all__'
 
 
-class MaintenanceForm(forms.ModelForm):
-    class Meta:
-        model = Maintainance
-        fields = '__all__'
+

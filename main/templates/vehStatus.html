@@ -9,6 +9,144 @@
             {% block content %}
                 <div class="container-fluid">
 
+                 <div id='map' style='width: 100%; height: 300px;'>
+
+                    <script>
+                      function locate(){
+                           mapboxgl.accessToken = 'pk.eyJ1IjoiaWRhdmVyczk4IiwiYSI6ImNrcXBzZWxmczA4Mm8ydnEzMXR3emt3eXcifQ.d-QVNcLt_5acuWmgUpBPTA';
+
+                  navigator.geolocation.getCurrentPosition(
+                    // (B2) ON SUCCESSFULLY GETTING GPS COORDINATES
+                    function (pos) {
+
+                        var lat = document.getElementById('latitude').value;
+                        var lon = document.getElementById('longitude').value;
+
+
+                      // DRAW MAP
+                      let map = new mapboxgl.Map({
+                        container: 'map',
+                        style: 'mapbox://styles/mapbox/streets-v11',
+                        center: [lon, lat],
+                        zoom: 13
+                      });
+
+
+                      // DRAW MARKER
+                      let marker = new mapboxgl.Marker()
+                        .setLngLat([lon, lat])
+
+                        .addTo(map);
+                      console.log(pos.coords.longitude)
+                        console.log(pos.coords.latitude)
+                    },
+
+                    // (B3) ON FAILING TO GET GPS COORDINATES
+                    function (err) {
+                      console.log(err);
+                    },
+                       {
+                      enableHighAccuracy: true,
+                      timeout: 1000,
+                      maximumAge: 0,
+                      trackUserLocation: true
+                    }
+
+                  );
+                      }
+
+
+
+
+
+
+
+                      window.addEventListener("DOMContentLoaded", function  () {
+  // (B1) INSERT ACCESS TOKEN HERE!
+                   mapboxgl.accessToken = 'pk.eyJ1IjoiaWRhdmVyczk4IiwiYSI6ImNrcXBzZWxmczA4Mm8ydnEzMXR3emt3eXcifQ.d-QVNcLt_5acuWmgUpBPTA';
+
+                  navigator.geolocation.getCurrentPosition(
+                    // (B2) ON SUCCESSFULLY GETTING GPS COORDINATES
+                    function (pos) {
+                      // DRAW MAP
+                      let map = new mapboxgl.Map({
+                        container: 'map',
+                        style: 'mapbox://styles/mapbox/streets-v11',
+                        center: [pos.coords.longitude, pos.coords.latitude],
+                        zoom: 13
+                      });
+
+
+                      // DRAW MARKER
+                      let marker = new mapboxgl.Marker()
+                        .setLngLat([pos.coords.longitude, pos.coords.latitude])
+
+                        .addTo(map);
+                      console.log(pos.coords.longitude)
+                        console.log(pos.coords.latitude)
+                    },
+
+                    // (B3) ON FAILING TO GET GPS COORDINATES
+                    function (err) {
+                      console.log(err);
+                    },
+
+                    // (B4) GPS OPTIONS
+                    {
+                      enableHighAccuracy: true,
+                      timeout: 1000,
+                      maximumAge: 0,
+                      trackUserLocation: true
+                    }
+
+
+                  );
+                });
+
+                    </script>
+                </div>
+
+                <div>
+                <div class="card-body">
+
+                     <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                     <button type="button" onclick="locate()" class="btn btn-default">
+                         &nbsp;Pin Vehicle
+                     </button>
+                            </div>
+                        </div>
+
+                         <div class="col-sm-3">
+                            <div class="form-group">
+                               <label for="latitude"></label>
+                                    {% for obj in loc %}
+                                    <input type="text" name="latitude" id="latitude" value="{{ obj.latitude }}" class="form-control" placeholder="{{ obj.latitude }}">
+                                    {% endfor %}
+                            </div>
+                         </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="longitude"></label>
+                                        {% for obj in loc %}
+                                        <input type="text" name="longitude" id="longitude" value="{{ obj.longitude }}" class="form-control" placeholder="{{ obj.longitude }}">
+                                        {% endfor %}
+                                </div>
+                            </div>
+
+                     </div>
+
+
+                <script>
+                    {% for obj in loc %}
+                    {% endfor %}
+                </script>
+
+
+                </div>
+
+
 
 <!-- Button trigger modal -->
                 <div class="card-body">
@@ -269,7 +407,5 @@
                 </div>
             </div>
         </div>
+                </div>
         {% endblock %}
-
-
-

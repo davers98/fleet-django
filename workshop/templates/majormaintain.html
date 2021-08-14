@@ -1,13 +1,15 @@
 {% extends 'basewr.html' %}
 
 {% block title %}
-    <title>Pending - Fleet</title>
+    <title>Major Maintenance | FMS</title>
 {% endblock %}
+
+
 
 
 {% block content %}
 
-     <div class="container-fluid">
+    <div class="container-fluid">
                      <div class="card">
 
 
@@ -30,8 +32,8 @@
                                 </tr>
                               </thead>
                               <tbody>
-                               {% for obj in pend %}
-                                   {% if obj.transport != '' and obj.status == '' %}
+                               {% for obj in maj %}
+                                   {% if obj.status == 'Major' %}
                        <tr>
 
                                      <td><a href="#">{{ obj.date }}</a></td>
@@ -46,7 +48,7 @@
 
 
                            <td>
-                                <a href="{% url 'workshop:update_status' obj.id %}" class="opt">
+                                <a href="{% url 'workshop:requests' obj.id %}" class="opt">
                                 <i class="ion-edit btn-small"></i>
                                 </a>
                            </td>
@@ -73,4 +75,5 @@
                 </div>
             </div>
         </div>
+
 {% endblock %}

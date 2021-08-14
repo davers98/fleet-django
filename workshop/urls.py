@@ -7,6 +7,8 @@ urlpatterns = [
     path('', views.workshop, name='workshop'),
     path('Pending Maintenance/', views.pending, name='pending'),
     path('Completed Maintenance/', views.completed, name='completed'),
-    path('Pending Maintenance/edit/<pending_id>', views.update_status, name='update_status')
+    path('Pending Maintenance/edit/<pending_id>', views.update_status, name='update_status'),
+    path('Major Maintenance/', views.major, name='major'),
+    path('Major Maintenance/request/<request_id>', views.requests, name='requests')
 
 ]

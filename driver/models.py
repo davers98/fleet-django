@@ -100,30 +100,30 @@ class Refilling(models.Model):
         return self.number + str(self.date) + self.fuel + self.liters + str(self.vehicle)
 
 
-class Maintainance(models.Model):
-    class Status(models.TextChoices):
-        planned = 'Planned'
-        nonplanned = 'Non-Planned'
-
-    vehicle = models.CharField(max_length=50)
-    driver = models.CharField(max_length=50)
-    description = models.CharField(max_length=255)
-    mtype = models.CharField(max_length=50,)
-    date = models.CharField(max_length=50, blank=True)
-    transport = models.CharField(max_length=50, blank=True)
-    status = models.CharField(max_length=50, blank=True)
-
-
-class MajorMaintainance(models.Model):
-    class Status(models.TextChoices):
-        approved = 'Approved'
-        pending = 'Pending'
-
-    vehicle = models.CharField(max_length=50)
-    spare = models.CharField(max_length=50)
-    cost = models.CharField(max_length=50)
-    status = models.CharField(max_length=50, choices=Status.choices, default=Status.pending)
-    human = models.CharField(max_length=50)
+# class Maintainance(models.Model):
+#     class Status(models.TextChoices):
+#         planned = 'Planned'
+#         nonplanned = 'Non-Planned'
+#
+#     vehicle = models.CharField(max_length=50)
+#     driver = models.CharField(max_length=50)
+#     description = models.CharField(max_length=255)
+#     mtype = models.CharField(max_length=50, )
+#     date = models.CharField(max_length=50, blank=True)
+#     transport = models.CharField(max_length=50, blank=True)
+#     status = models.CharField(max_length=50, blank=True)
+#
+#
+# class MajorMaintainance(models.Model):
+#     class Status(models.TextChoices):
+#         approved = 'Approved'
+#         pending = 'Pending'
+#
+#     vehicle = models.CharField(max_length=50)
+#     spare = models.CharField(max_length=50)
+#     cost = models.CharField(max_length=50)
+#     status = models.CharField(max_length=50, choices=Status.choices, default=Status.pending)
+#     human = models.CharField(max_length=50)
 
 
 class RandomRefill(models.Model):
@@ -139,3 +139,12 @@ class RandomRefill(models.Model):
     def create_latest_inputs(sender, instance, created, **kwargs):
         if created:
             RandomRefill.objects.create(user=instance)
+
+
+class Locations(models.Model):
+    latitude = models.CharField(max_length=50)
+    longitude = models.CharField(max_length=50)
+    time = models.DateTimeField(auto_now=True)
+
+    # def __str__(self):
+    #     return self.id + int(self.latitude) + int(self.longitude)

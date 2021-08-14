@@ -34,7 +34,7 @@
                               </thead>
                               <tbody>
                                {% for obj in com %}
-                                   {% if obj.status != '' %}
+                                   {% if obj.status == 'Completed' %}
                        <tr>
 
                                     <td><a href="#">{{ obj.date }}</a></td>

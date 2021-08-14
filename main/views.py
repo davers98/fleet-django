@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from staff.models import Request
 from staff.forms import RequestForm
-from driver.models import Refilling, Vehicle, Driver, Maintainance
+from driver.models import Refilling, Vehicle, Driver, Locations
+from workshop.models import Maintainance, MajorMaintainance
 from accounts.models import User
 from main.models import VehicleStatus
-from driver.forms import RefillingForm, MaintenanceForm
+from driver.forms import RefillingForm
+from workshop.forms import MaintenanceForm
 from accounts.decorators import transport_required
 from django.http import HttpResponse
 from main.forms import VehicleForm, DriverForm
@@ -72,7 +74,10 @@ def status(request):
         return redirect('main:status')
     else:
         tripss = Vehicle.objects.all()
-        return render(request, 'vehStatus.html', {'trips': tripss})
+        loc = [Locations.objects.all().last()]
+
+        # last_date = loc.id
+        return render(request, 'vehStatus.html', {'trips': tripss, 'loc': loc})
 
 
 def edit_status(request, status_id):
