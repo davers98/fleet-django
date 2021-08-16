@@ -13,8 +13,10 @@ def staff(request):
 
         form = RequestForm(request.POST)
         print(form)
-        Request.objects.create(staff_id=request.POST['staffid'], purpose=request.POST['purpose'],trip_date=request.POST['date'],
-                               time=request.POST['time'], department=request.POST['department'], destination=request.POST['destination'])
+        Request.objects.create(staff_id=request.POST['staffid'], purpose=request.POST['purpose'],
+                               trip_date=request.POST['date'],
+                               time=request.POST['time'], department=request.POST['department'],
+                               destination=request.POST['destination'])
         if form.is_valid():
             form.save()
         return redirect('staff')
@@ -33,8 +35,29 @@ def staff_request(request):
                                time=request.POST['time'], department=request.POST['department'],
                                destination=request.POST['destination'])
         if form.is_valid():
-            form.save()
+            instance = form.save(commit=False)
+            instance.user = request.user
         return redirect('staff:staff_request')
     else:
         tripss = Request.objects.all()
         return render(request, 'staff_request.html', {'trips': tripss})
+
+
+def history(request):
+    tripss = Request.objects.all()
+    return render(request, 'history.html', {'trips': tripss})
+
+
+def reqCom(request, status_id):
+    if request.method == "POST":
+
+        stat = Request.objects.get(pk=status_id)
+        form = RequestForm(request.POST or None, instance=stat)
+        Request.objects.filter(id=status_id).update(trip_status=request.POST['status'])
+        if form.is_valid():
+            form.save()
+        return redirect('staff:staff')
+    else:
+        stat_obj = Request.objects.get(pk=status_id)
+        print(status_id)
+        return render(request, 'requComp.html', {'stat': stat_obj})

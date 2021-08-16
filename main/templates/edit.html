@@ -12,17 +12,38 @@
                           <h3>Assign Driver for {{ req_obj.staff_id }}</h3>
 
 
-
+                               <div class="row">
+                                    <div class="col-sm-6">
                                 <div class="form-group">
-                                 <label></label>
-                                  <select class="form-control" name="driver">
+                                <label for="driver">Assign Driver</label>
+                                  <select class="form-control" id="driver" name="driver">
                                      <option value="" disabled selected>Driver</option>
                                     {% for obj in driver %}
-                                    <option>{{ obj.driver_id }}</option>
+                                        {% if obj.status != 'Unavailable' and obj.vehicle != 'Not Assigned' %}
+                                    <option>{{ obj.driver_name }}</option>
+                                        {% endif %}
                                      {% endfor %}
                                 <option>Not Assigned</option>
                                 </select>
                                 </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                <div class="form-group">
+                                <label for="trans">Approved By</label>
+                                  <select class="form-control" id="trans" name="trans">
+                                     <option value="" disabled selected>Select</option>
+                                    {% for obj in users %}
+                                        {% if user.get_username == obj.username %}
+                                    <option>{{ obj.username }}</option>
+                                        {% endif %}
+                                     {% endfor %}
+                                <option>Not Assigned</option>
+                                </select>
+                                </div>
+                                </div>
+                               </div>
                                 <div><button type="submit" class="btn btn-primary">Assign Driver</button></div>
 
 

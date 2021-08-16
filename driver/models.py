@@ -10,15 +10,16 @@ from random import randint
 
 
 class Driver(models.Model):
-    driver_id = models.CharField(max_length=100)
+    # driver_id = models.CharField(max_length=100)
     driver_name = models.CharField(max_length=50, default='david')
     vehicle = models.CharField(max_length=50, blank=True, default='Not Assigned')
     status = models.CharField(max_length=50)
     staff_id = models.CharField(max_length=50, blank=True, default='Not Assigned')
     phone = models.CharField(max_length=50, default='+255716228159')
+    added_by = models.CharField(max_length=50)
 
-    def __str__(self):
-        return self.driver_id + ' - ' + str(self.status) + ' - ' + str(self.staff_id) + ' - ' + self.phone
+    # def __str__(self):
+    #     return self.driver_id + ' - ' + str(self.status) + ' - ' + str(self.staff_id) + ' - ' + self.phone
 
 
 class Vehicle(models.Model):
@@ -56,6 +57,9 @@ class Vehicle(models.Model):
     last_refill = models.CharField(max_length=50)
     mileage = models.CharField(max_length=50, default=0)
 
+
+    # user = models.ForeignKey(User, default=1, on_delete=models.SET_DEFAULT)
+
     def __str__(self):
         return (self.manufacturer + ' - ' + str(
             self.model) + ' - ' + self.license + ' - ' + self.fuel_type + ' - ' + self.maintenance_record
@@ -68,7 +72,7 @@ class Inspection(models.Model):
     driver = models.CharField(max_length=50, default='User')
     date = models.CharField(max_length=50, blank=True)
     odometer = models.CharField(max_length=100, default=0)
-
+    # user = models.ForeignKey(User, default=1, on_delete=models.SET_DEFAULT)
     defect = models.TextField(max_length=255, blank=True)
 
     def __str__(self):
@@ -98,32 +102,6 @@ class Refilling(models.Model):
 
     def __str__(self):
         return self.number + str(self.date) + self.fuel + self.liters + str(self.vehicle)
-
-
-# class Maintainance(models.Model):
-#     class Status(models.TextChoices):
-#         planned = 'Planned'
-#         nonplanned = 'Non-Planned'
-#
-#     vehicle = models.CharField(max_length=50)
-#     driver = models.CharField(max_length=50)
-#     description = models.CharField(max_length=255)
-#     mtype = models.CharField(max_length=50, )
-#     date = models.CharField(max_length=50, blank=True)
-#     transport = models.CharField(max_length=50, blank=True)
-#     status = models.CharField(max_length=50, blank=True)
-#
-#
-# class MajorMaintainance(models.Model):
-#     class Status(models.TextChoices):
-#         approved = 'Approved'
-#         pending = 'Pending'
-#
-#     vehicle = models.CharField(max_length=50)
-#     spare = models.CharField(max_length=50)
-#     cost = models.CharField(max_length=50)
-#     status = models.CharField(max_length=50, choices=Status.choices, default=Status.pending)
-#     human = models.CharField(max_length=50)
 
 
 class RandomRefill(models.Model):

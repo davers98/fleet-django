@@ -35,11 +35,12 @@ def edit_request(request, request_id):
         req = Request.objects.get(pk=request_id)
         form = RequestForm(request.POST or None, instance=req)
         # Request.objects.update(driver=request.POST['driver'])
-        Request.objects.filter(id=request_id).update(driver=request.POST['driver'])
+        Request.objects.filter(id=request_id).update(driver=request.POST['driver'], approved_by=request.POST['trans'])
         sms = request.POST['driver']
         number = Request.objects.raw('select phone from driver_assigned')
         if form.is_valid():
-            form.save()
+            instance = form.save(commit=False)
+            instance.user = request.user
             send_mail(
                 'Trip FeedBack',
                 'Your Trip information is already posted login to check status',
@@ -52,8 +53,9 @@ def edit_request(request, request_id):
     else:
         req_obj = Request.objects.get(pk=request_id)
         drv = Driver.objects.all()
+        users = User.objects.all()
         print(request_id)
-        return render(request, 'edit.html', {'req_obj': req_obj, 'driver': drv})
+        return render(request, 'edit.html', {'req_obj': req_obj, 'driver': drv, 'users': users})
 
 
 def status(request):
@@ -106,30 +108,35 @@ def edit_filling(request, filling_id):
         form = RefillingForm(request.POST or None, instance=fill)
         Refilling.objects.filter(id=filling_id).update(number=request.POST['namba'], approved=request.POST['transport'])
         if form.is_valid():
-            form.save()
+            instance = form.save(commit=False)
+            instance.received_by = request.user
         return redirect('main:filling')
     else:
         fill_obj = Refilling.objects.get(pk=filling_id)
         tro = User.objects.all()
         number = random.randint(1, 798)
-        return render(request, 'edit_filling.html', {'fill': fill_obj, 'num': number, 'user': tro})
+        return render(request, 'edit_filling.html', {'fill': fill_obj, 'num': number, 'users': tro})
 
 
 def driver(request):
+
     if request.method == 'POST':
-        form = DriverForm(request.POST)
-        Driver.objects.create(driver_id=request.POST['employee'], driver_name=request.POST['fname'],
+        form = DriverForm(request.POST or None, request.FILES or None)
+
+        Driver.objects.create(driver_name=request.POST['fname'],
                               vehicle=request.POST['number'], status=request.POST['status'],
-                              staff_id=request.POST['staff'],
-                              phone=request.POST['phone'])
+                              phone=request.POST['phone'], added_by=request.POST['added_by'])
         if form.is_valid():
             form.save()
+
         return redirect('main:driver')
     else:
         tripss = Driver.objects.all()
+
         vehicle = Vehicle.objects.all()
-        staff = Request.objects.all()
-        return render(request, 'driver.html', {'trips': tripss, 'vehicle': vehicle, 'staff': staff})
+
+        users = User.objects.all()
+        return render(request, 'driver.html', {'trips': tripss, 'vehicle': vehicle, 'users': users})
 
 
 def maintenance(request):
@@ -150,3 +157,41 @@ def edit_main(request, main_id):
         tro = User.objects.all()
         # number = random.randint(1, 798)
         return render(request, 'editmain.html', {'main': main_obj, 'user': tro})
+
+
+def assign(request, driver_id):
+    if request.method == "POST":
+        drv = Driver.objects.get(pk=driver_id)
+        form = DriverForm(request.POST or None, instance=drv)
+        Driver.objects.filter(id=driver_id).update(vehicle=request.POST['vehicle'])
+        if form.is_valid():
+            form.save()
+        return redirect('main:driver')
+    else:
+        drv_obj = Driver.objects.get(pk=driver_id)
+        veh = Vehicle.objects.all()
+        tro = User.objects.all()
+        # number = random.randint(1, 798)
+        return render(request, 'assign.html', {'drv': drv_obj, 'user': tro, 'veh': veh})
+
+
+def aval(request, set_id):
+    if request.method == "POST":
+        drv = Driver.objects.get(pk=set_id)
+        form = DriverForm(request.POST or None, instance=drv)
+        Driver.objects.filter(id=set_id).update(status=request.POST['status'])
+        if form.is_valid():
+            form.save()
+        return redirect('main:driver')
+    else:
+        drv_obj = Driver.objects.get(pk=set_id)
+        veh = Vehicle.objects.all()
+        tro = User.objects.all()
+        # number = random.randint(1, 798)
+        return render(request, 'setAvailable.html', {'drv': drv_obj, 'user': tro, 'veh': veh})
+
+
+def delete_drv(request, driver_id):
+    drv = Driver.objects.get(pk=driver_id)
+    drv.delete()
+    return redirect('main:driver')

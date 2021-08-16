@@ -6,14 +6,14 @@
 
 {% block content %}
 
-     <div id='map' style='width: 100%; height: 300px;'></div>
-                        <script>
-                          mapboxgl.accessToken = 'pk.eyJ1IjoiaWRhdmVyczk4IiwiYSI6ImNrcXBzZWxmczA4Mm8ydnEzMXR3emt3eXcifQ.d-QVNcLt_5acuWmgUpBPTA';
-                          var map = new mapboxgl.Map({
-                            container: 'map',
-                            style: 'mapbox://styles/mapbox/streets-v11'
-                          });
-                        </script>
+{#     <div id='map' style='width: 100%; height: 300px;'></div>#}
+{#                        <script>#}
+{#                          mapboxgl.accessToken = 'pk.eyJ1IjoiaWRhdmVyczk4IiwiYSI6ImNrcXBzZWxmczA4Mm8ydnEzMXR3emt3eXcifQ.d-QVNcLt_5acuWmgUpBPTA';#}
+{#                          var map = new mapboxgl.Map({#}
+{#                            container: 'map',#}
+{#                            style: 'mapbox://styles/mapbox/streets-v11'#}
+{#                          });#}
+{#                        </script>#}
 
                     <div class="card-body">
                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
@@ -35,74 +35,73 @@
                                     {% csrf_token %}
 
                             <div class="row">
-                                        <div class="col-sm-6">
+                                    <div class="col-sm-6">
                                           <div class="form-group">
-                                <label for="employee">Employee No.</label>
-                                <input type="tel" name="employee" id="employee" class="form-control" placeholder="0001111" maxlength="7" required>
-                                          </div>
-                                        </div>
+                                             <label for="facility_opt">Driver</label>
+                                              <select id="facility_opt" class="form-control" name="fname">
+                                                  <option value="" disabled selected>Select</option>
+                                                {% for obj in users %}
+                                                {% if obj.user_type == 2 %}
+                                                    <option value="{{ obj.username }}">{{ obj.username }}</option>
+                                                    {% endif %}
+                                                        {% endfor %}
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
 
                             <div class="col-sm-6">
                                           <div class="form-group">
-                                <label for="fname">First Name</label>
-                                <input type="text" name="fname" id="fname" class="form-control" placeholder="First Name" required>
+                                            <label for="phone">Contact No.</label>
+                                            <input type="tel" name="phone" id="phone" class="form-control" placeholder="Phone number" maxlength="11" required>
                                           </div>
-                            </div>
+                                        </div>
                             </div>
 
                               <div class="row">
                                         <div class="col-sm-6">
                                           <div class="form-group">
-                                <label for="facility_opt">Assigned Vehicle</label>
-                                <select id="facility_opt" class="form-control" name="number">
-                                    <option value="" disabled selected>Select</option>
-                                    {% for obj in vehicle %}
-                                        {% if obj.status == 'available' %}
-                                    <option value="{{ obj.license }}">{{ obj.license }}</option>
-                                        {% endif %}
-                                         {% endfor %}
-                                </select>
-                                          </div>
-                                        </div>
-
-                                 <div class="col-sm-6">
+                                            <label for="facility_opt">Assigned Vehicle</label>
+                                            <select id="facility_opt" class="form-control" name="number">
+                                            <option value="" disabled selected>Select</option>
+                                                 {% for obj in vehicle %}
+                                                    {% if obj.status == 'available' %}
+                                            <option value="{{ obj.license }}">{{ obj.license }}</option>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                            <option>Not Assigned</option>
+                                                        </select>
+                                                            </div>
+                                                                </div>
+                                                <div class="col-sm-6">
                                           <div class="form-group">
-                                <label for="facility_opt">Assigned Staff</label>
-                                <select id="facility_opt" class="form-control" name="staff">
-                                    <option value="" disabled selected>Select</option>
-                                    {% for obj in staff %}
-                                        {% if obj.driver == 'Not Assigned' %}
-                                    <option value="{{ obj.staff_id }}">{{ obj.staff_id }}</option>
+                                            <label for="facility_opt">Approved by</label>
+                                            <select id="facility_opt" class="form-control" name="added_by" required>
+                                            <option value="" disabled selected>Select</option>
+                                                 {% for obj in users %}
+                                                    {% if user.get_username == obj.username %}
+                                            <option value="{{ obj.username }}">{{ obj.username }}</option>
+                                                    {% endif %}
+                                                    {% endfor %}
 
-                                        {% endif %}
-                                         {% endfor %}
-                                <option>Not Assigned</option>
-                                </select>
-                                          </div>
-                                 </div>
+                                                        </select>
+                                                            </div>
+                                                                </div>
                               </div>
 
                             <div class="row">
                                         <div class="col-sm-6">
                                           <div class="form-group">
-                                <label for="phone">Contact No.</label>
-                                <input type="tel" name="phone" id="phone" class="form-control" placeholder="Phone number" maxlength="11" required>
+                                            <label for="">Driver Status: </label>
+                                            <div class="radio-group">
+                                            <label for="status-available">Available</label>
+                                            <input type="radio" id="status-available"  name="status" value="available" checked>
+                                            <label for="status-unavailable">Unavailable</label>
+                                            <input type="radio" name="status"  id="status-unavailable" value="unavailable">
+                                                </div>
                                           </div>
-                                        </div>
 
 
-
-{#                                        <div class="row">#}
-                                        <div class="col-sm-6">
-                                          <div class="form-group">
-                                <label for="">Driver Status: </label>
-                                <div class="radio-group">
-                                    <label for="status-available">Available</label>
-                                    <input type="radio" id="status-available"  name="status" value="available" checked>
-                                    <label for="status-unavailable">Unavailable</label>
-                                    <input type="radio" name="status"  id="status-unavailable" value="unavailable">
-                                </div>
-                                          </div>
                                         </div>
                             </div>
 
@@ -127,42 +126,47 @@
                 <table id="example1" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Employee No.</th>
+
                                         <th>Driver Name</th>
                                         <th>Contact No.</th>
                                         <th>Assigned Vehicle</th>
-                                        <th>Assigned Staff</th>
                                         <th>Status</th>
+                                        <th>Registered By</th>
                                         <th>Edit</th>
+                                        <th>Delete</th>
                                     </tr>
                                 </thead>
                             <tbody>
                             {% for obj in trips %}
                             <tr>
-                                <th>{{ obj.driver_id }}</th>
-                                <th>{{ obj.driver_name }}</th>
-                                 <th>{{ obj.phone }}</th>
-                                 <th>{{ obj.vehicle }}</th>
-                                 <th>{{ obj.staff_id }}</th>
-                                <th>{{ obj.status }}</th>
+
+                                 <td>{{ obj.driver_name }}</td>
+                                 <td>{{ obj.phone }}</td>
+                                 <td><a href="{% url 'main:assign' obj.id %}">{{ obj.vehicle }}</a></td>
+                                <td>{{ obj.status }}</td>
+                                <td>{{ obj.added_by }}</td>
                             <td>
-                            <a href="#">
+                            <a href="{% url 'main:aval' obj.id %}">
                             <i class="far fa-edit"></i></a></td>
+                            <td>
+                            <a href="{% url 'main:delete_drv' obj.id %}">
+                            <i class="far fa-trash-alt"></i></a></td>
                   </tr>
 
-                            </tr>
+
 
                             {% endfor %}
                             </tbody>
                 <tfoot>
                 <tr>
-                                         <th>Employee No.</th>
+
                                         <th>Driver Name</th>
                                         <th>Contact No.</th>
                                         <th>Assigned Vehicle</th>
-                                        <th>Assigned Staff</th>
                                         <th>Status</th>
+                                        <th>Registered By</th>
                                         <th>Edit</th>
+                                        <th>Delete</th>
                 </tr>
                 </tfoot>
                 </table>

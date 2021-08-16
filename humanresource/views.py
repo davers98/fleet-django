@@ -20,7 +20,8 @@ def edit_request(request, request_id):
         form = RefillingForm(request.POST or None, instance=req)
         Refilling.objects.filter(id=request_id).update(status=request.POST['status'])
         if form.is_valid():
-            form.save()
+            instance = form.save(commit=False)
+            instance.hr = request.user
         return redirect('hr:refill')
     else:
         ref = Refilling.objects.get(pk=request_id)

@@ -38,7 +38,7 @@
                                           <!-- text input -->
                                           <div class="form-group">
                                             <label for="lplate">To</label>
-                                            <input type="text" name="kwenda" class="form-control" id="lplate" placeholder="STL"  required>
+                                            <input type="text" name="kwenda" class="form-control" id="lplate" placeholder="To"  required>
                                                       </div>
                                                     </div>
 
@@ -49,9 +49,13 @@
                                                 <select id="facility_opt" class="form-control" name="gari">
 
                                                     <option value="" disabled selected>Vehicle</option>
-                                                    {% for obj in vehicle %}
-                                                    <option>{{ obj.license }}</option>
+                                                    {% for obj in users  %}
+                                                        {% for samp in driver %}
+                                                        {% if  obj.username == samp.driver_name %}
+                                                    <option>{{ samp.vehicle }}</option>
+                                                        {% endif %}
                                                      {% endfor %}
+                                                {% endfor %}
 
                                                 </select>
 
@@ -71,8 +75,10 @@
                                 <select id="facility_opt" class="form-control" name="driver">
 
                                     <option value="" disabled selected>Driver</option>
-                                    {% for obj in driver %}
-                                    <option>{{ obj.driver_id }}</option>
+                                    {% for obj in users %}
+                                        {% if user.get_username == obj.username %}
+                                    <option>{{ obj.username }}</option>
+                                        {% endif %}
                                      {% endfor %}
 
                                 </select>
@@ -130,12 +136,13 @@
                 <table id="example1" class="table table-bordered table-striped">
                                       <thead>
                                         <tr>
-                                          <th>Number</th>
-                                          <th>Date</th>
+                                            <th>Number</th>
+                                            <th>Date</th>
+                                            <th>Requesting Driver</th>
                                             <th>Approved By T.O</th>
-                                          <th>Fuel</th>
-                                          <th>Litres</th>
-                                          <th>Vehicles</th>
+                                            <th>Fuel</th>
+                                            <th>Litres</th>
+                                            <th>Vehicles</th>
                                             <th>Status</th>
 
                                         </tr>
@@ -145,6 +152,7 @@
                                         <tr>
                                               <td>{{ obj.number}}</td>
                                               <td>{{ obj.date }}</td>
+                                            <td>{{ obj.driver }}</td>
                                             <td>{{ obj.approved }}</td>
                                               <td>{{ obj.fuel }}</td>
                                               <td>{{ obj.liters }}</td>
@@ -157,6 +165,7 @@
                                         <tr>
                                            <th>Number</th>
                                           <th>Date</th>
+                                            <th>Requesting Driver</th>
                                             <th>Approved By T.O</th>
                                           <th>Fuel</th>
                                           <th>Litres</th>

@@ -31,7 +31,7 @@
 
                                 <tbody>
                                 {% for obj in trips %}
-{#                                    {% if user.is_authenticated and user.username == authenticated.user  %}#}
+                                    {% if obj.trip_status == 'Pending' %}
                                     <tr>
                                         <td>{{ obj.id }}</td>
                                         <td>{{ obj.staff_id }}</td>
@@ -42,14 +42,15 @@
                                         <td>{{ obj.time }}</td>
                                         <td>{{ obj.contact }}</td>
                                         <td>{{ obj.driver }}</td>
-                                        <td>approved</td>
+                                        <td><a href="{% url 'staff:reqCom' obj.id %}">{{ obj.trip_status }}</a></td>
+
                                         <td>
                                             <a href="#" class="opt">
                                                 <i class="ion-edit btn-small"></i>
                                             </a>
                                         </td>
                                     </tr>
-{#                                    {% endif %}#}
+                                    {% endif %}
                                 {% endfor %}
 
 
@@ -71,6 +72,8 @@
                 </tfoot>
                             </table>
 
+              </div>
+                             </div>
 
 
 

@@ -8,6 +8,8 @@ from driver.forms import InspectionForm, RefillingForm
 from staff.models import Request
 from workshop.models import Maintainance
 from workshop.forms import MaintenanceForm
+from accounts.models import User
+
 
 # Create your views here.
 
@@ -28,21 +30,10 @@ def inspection(request):
         Inspection.objects.create(date=request.POST['date'], license=request.POST['number'],
                                   driver=request.POST['driver'], odometer=request.POST['odometer'],
                                   defect=request.POST['defect'])
-        # steering=request.POST['steering'], brakes=request.POST['brakes'],
-        # indicators=request.POST['indicators'], speedometer=request.POST['speedometer'],
-        # wipers=request.POST['wipers'], body_interior=request.POST['interior'],
-        # extinguisher=request.POST['extinguisher'],
-        # first_aid=request.POST['firstaid'], floor_traps=request.POST['floor'],
-        # emergency=request.POST['emergency'], passenger_door=request.POST['passenger'],
-        # mirrors=request.POST['mirrors'],
-        # body_exterior=request.POST['exterior'], discs=request.POST['discs'],
-        # inflation=request.POST['inflation'], spare_wheel=request.POST['spare'],
-        # fixing=request.POST['fixing'],
-        # engine=request.POST['engine'], battery=request.POST['battery'],
-        # exhaust=request.POST['exhaust'], reflectors=request.POST['reflectors'],
 
         if form.is_valid():
-            form.save()
+            instance = form.save(commit=False)
+            instance.user = request.user
         return redirect('drivers:inspection')
 
     inspect = Inspection.objects.all()
@@ -56,16 +47,17 @@ def refilling(request):
     if request.method == 'POST':
         form = RefillingForm(request.POST)
         Refilling.objects.create(towards=request.POST['kwenda'], fuel=request.POST['aina'],
-                                 liters=request.POST['kiasi'], vehicle=request.POST['gari'])
+                                 liters=request.POST['kiasi'], vehicle=request.POST['gari'], driver=request.POST['driver'])
         if form.is_valid():
-            form.save()
+            instance = form.save(commit=False)
+            instance.sent_by = request.user
         return redirect('drivers:refilling')
-
+    users = User.objects.all()
     refill = Refilling.objects.all()
     drv = Driver.objects.all()
     vhc = Vehicle.objects.all()
 
-    return render(request, 'refilling.html', {'refill': refill, 'driver': drv, 'vehicle': vhc})
+    return render(request, 'refilling.html', {'refill': refill, 'driver': drv, 'vehicle': vhc, 'users': users})
 
 
 def maintenance(request):
@@ -75,7 +67,8 @@ def maintenance(request):
                                     driver=request.POST['driver'],
                                     mtype=request.POST['type'], description=request.POST['description'])
         if form.is_valid():
-            form.save()
+            instance = form.save(commit=False)
+            instance.user = request.user
         return redirect('drivers:maintenance')
     else:
         tripss = Vehicle.objects.all()

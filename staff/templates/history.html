@@ -1,0 +1,82 @@
+{% extends 'basest.html' %}
+
+{% block title %}
+
+    <title>Staff | FMS</title>
+
+{% endblock %}
+
+
+{% block content %}
+                             <div class="card">
+
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+
+                                        <th>Requested By</th>
+                                        <th>Purpose</th>
+                                        <th>Department</th>
+                                        <th>Required Date</th>
+                                        <th>Destination</th>
+                                        <th>Departure Time</th>
+                                        <th>Contact No.</th>
+                                        <th>Driver</th>
+                                        <th>Status</th>
+                                        <th>Edit</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                {% for obj in trips %}
+                                    {% if obj.trip_status != 'Pending' %}
+                                    <tr>
+
+                                        <td>{{ obj.staff_id }}</td>
+                                        <td>{{ obj.purpose }}</td>
+                                        <td>{{ obj.department }}</td>
+                                        <td>{{ obj.date }}</td>
+                                        <td>{{ obj.destination }}</td>
+                                        <td>{{ obj.time }}</td>
+                                        <td>{{ obj.contact }}</td>
+                                        <td>{{ obj.driver }}</td>
+                                        <td>{{ obj.trip_status }}</td>
+                                        <td>
+                                            <a href="#" class="opt">
+                                                <i class="ion-edit btn-small"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+                                {% endfor %}
+
+
+                                </tbody>
+                <tfoot>
+                <tr>
+
+                                        <th>Requested By</th>
+                                        <th>Purpose</th>
+                                        <th>Department</th>
+                                        <th>Required Date</th>
+                                        <th>Destination</th>
+                                        <th>Departure Time</th>
+                                        <th>Contact No.</th>
+                                        <th>Driver</th>
+                                        <th>Status</th>
+                                        <th>Edit</th>
+                </tr>
+                </tfoot>
+                            </table>
+
+              </div>
+                             </div>
+
+
+
+
+
+        <!-- Bootstrap core JS-->
+     {% endblock %}

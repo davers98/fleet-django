@@ -26,7 +26,8 @@ def update_status(request, pending_id):
         form = MaintenanceForm(request.POST or None, instance=upd)
         Maintainance.objects.filter(id=pending_id).update(status=request.POST['status'])
         if form.is_valid():
-            form.save()
+            instance = form.save(commit=False)
+            instance.user = request.user
         return redirect('workshop:pending')
     else:
         upd_obj = Maintainance.objects.get(pk=pending_id)

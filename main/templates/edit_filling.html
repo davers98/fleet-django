@@ -28,8 +28,8 @@
                                         <label for="facility_opt">Approved By</label>
                                              <select id="facility_opt" class="form-control" name="transport">
                                                 <option value="" disabled selected>Select</option>
-                                                     {% for obj in user %}
-                                                          {% if obj.user_type == 1 %}
+                                                     {% for obj in users %}
+                                                          {% if user.get_username == obj.username %}
                                                       <option value="{{ obj.username }}">{{ obj.username }}</option>
                                                           {% endif %}
                                                              {% endfor %}

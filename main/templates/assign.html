@@ -1,0 +1,52 @@
+{% extends 'basetr.html' %}
+
+{% block title %}
+        <title> FMS | Driver</title>
+{% endblock %}
+
+
+{% block content %}
+
+        <section>
+
+        <form method="post">
+            {% csrf_token %}
+            <h3> Assign Vehicle for {{ drv.driver_name }} </h3>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="facility_opt">Assign Vehicle</label>
+                                  <select class="form-control" name="vehicle">
+                                     <option value="" disabled selected>Vehicle</option>
+
+                                    {% for obj in veh %}
+                                        <option>{{ obj.license }}</option>
+                                     {% endfor %}
+                                <option>Not Assigned</option>
+                                </select>
+                                </div>
+                            </div>
+{#                                    <div class="col-sm-6">#}
+{#                                        <div class="form-group">#}
+{#                                            <label for="facility_opt">Driver Status</label>#}
+{#                                                <select id="facility_opt" class="form-control" name="status">#}
+{#                                                    <option value="" disabled selected>Select</option>#}
+{#                                                        {% for obj in vehicle %}#}
+{#                                                        {% if obj.status == 'available' %}#}
+{#                                                    <option>Available</option>#}
+{#                                                    <option>Unavailable</option>#}
+{#                                                    {% endif %}#}
+{#                                                    {% endfor %}#}
+{#                                                        </select>#}
+{#                                        </div>#}
+{#                                    </div>#}
+                        </div>
+        <div><button type="submit" class="btn btn-primary">Assign</button></div>
+
+        </form>
+
+
+        </section>
+
+{% endblock %}

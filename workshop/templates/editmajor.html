@@ -5,5 +5,158 @@
 {% endblock %}
 
 {% block content %}
-    
+       <div class="container-fluid">
+
+
+                  <!-- Button trigger modal -->
+                    <div style="margin-top: 2rem">
+                          <button type="button" class="btn btn-lg small-box bg-primary"  data-toggle="modal" data-target="#modal-default">
+                              <div class="inner">
+                                  <p>&nbsp;Major Maintenance</p>
+                              </div>
+                          &nbsp;
+                        </button>
+                    </div>
+
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="modal-default">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Refilling Request</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="" method="POST" class="form  clearfix newform">
+                                            {% csrf_token %}
+                                        <div class="row">
+                                        <div class="col-sm-6">
+                                          <!-- text input -->
+                                          <div class="form-group">
+                                            <label for="order">Order No.</label>
+                                            <input type="text" name="order" class="form-control" id="order" placeholder="Internal Order Number"  required>
+                                                      </div>
+                                                    </div>
+
+
+                                                 <div class="col-sm-6">
+                                                  <div class="form-group">
+                                                <label for="order">Date</label>
+                                            <input type="date" name="date" class="form-control" id="date" placeholder="date"  required>
+                                                      </div>
+                                                    </div>
+                           </div>
+
+
+
+
+                          <div class="row">
+                                        <div class="col-sm-6">
+
+                                          <div class="form-group">
+
+                                <label for="serial">Serial Number</label>
+                                            <input type="text" name="serial" class="form-control" id="serial" placeholder="Serial Number"  required>
+                                                      </div>
+                                                    </div>
+
+
+
+                            <div class="col-sm-6">
+
+                                          <div class="form-group">
+                                <label for="facility_opt">Vehicle Fuel</label>
+                                <select id="facility_opt" class="form-control" name="aina">
+                                    <option value="" disabled selected>Fuel Type</option>
+                                    <option>Petrol</option>
+                                    <option>Diesel</option>
+
+                                </select>
+                                          </div>
+                            </div>
+                          </div>
+
+                           <div class="row">
+                                <label for="vfuel">Fuel Capacity</label>
+                                <input type="text" name="kiasi" id="vfuel" class="form-control" placeholder="Fuel Capacity" required>
+                           </div>
+
+
+                            <br>
+
+
+
+
+                            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Request Refilling</button>
+            </div>
+
+                        </form>
+            </div>
+
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+
+
+
+                                     <div class="card">
+
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                                      <thead>
+                                        <tr>
+                                            <th>Number</th>
+                                            <th>Date</th>
+                                            <th>Requesting Driver</th>
+                                            <th>Approved By T.O</th>
+                                            <th>Fuel</th>
+                                            <th>Litres</th>
+                                            <th>Vehicles</th>
+                                            <th>Status</th>
+
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                       {% for obj in refill %}
+                                        <tr>
+                                              <td>{{ obj.number}}</td>
+                                              <td>{{ obj.date }}</td>
+                                            <td>{{ obj.driver }}</td>
+                                            <td>{{ obj.approved }}</td>
+                                              <td>{{ obj.fuel }}</td>
+                                              <td>{{ obj.liters }}</td>
+                                              <td>{{ obj.vehicle }}</td>
+                                                <td>{{ obj.status }}</td>
+                                        </tr>
+                                       {% endfor %}
+                                      </tbody>
+                                        <tfoot>
+                                        <tr>
+                                           <th>Number</th>
+                                          <th>Date</th>
+                                            <th>Requesting Driver</th>
+                                            <th>Approved By T.O</th>
+                                          <th>Fuel</th>
+                                          <th>Litres</th>
+                                          <th>Vehicles</th>
+                                            <th>Status</th>
+                                        </tr>
+                                        </tfoot>
+
+
+
+                                    </table>
+                                  </div><!--end of .table-responsive-->
+                                     </div>
+       </div>
+
+
 {% endblock %}

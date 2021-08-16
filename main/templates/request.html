@@ -156,7 +156,7 @@
                   <thead>
 
                   <tr>
-                    <th>Request ID</th>
+
                     <th>Staff ID</th>
                     <th>Department</th>
                     <th>Destination</th>
@@ -165,13 +165,15 @@
                        <th>Trip Date</th>
                       <th>Trip Time</th>
                       <th>Driver</th>
+                      <th>Approved By</th>
+                      <th>Trip Status</th>
                       <th>Edit</th>
                   </tr>
                   </thead>
                   <tbody>
                   {% for obj in trips %}
                   <tr>
-                    <td>{{ obj.id }}</td>
+
                     <td>{{ obj.staff_id }}
                     </td>
                     <td>{{ obj.department }}</td>
@@ -181,6 +183,8 @@
                       <td>{{ obj.date }}</td>
                       <td>{{ obj.time }}</td>
                       <td>{{ obj.driver }}</td>
+                      <td>{{ obj.approved_by }}</td>
+                      <td><a href="#">{{ obj.trip_status }}</a></td>
                         <td>
                             <a href="{% url 'main:edit_request' obj.id %}">
                             <i class="far fa-edit"></i></a></td>
@@ -192,7 +196,7 @@
                   </tbody>
                   <tfoot>
                   <tr>
-                   <th>Request ID</th>
+
                     <th>Staff ID</th>
                     <th>Department</th>
                     <th>Destination</th>
@@ -201,6 +205,8 @@
                        <th>Trip Date</th>
                       <th>Trip Time</th>
                       <th>Driver</th>
+                      <th>Approved By</th>
+                      <th>Trip Status</th>
                       <th>Edit</th>
                   </tr>
                   </tfoot>

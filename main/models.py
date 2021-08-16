@@ -2,6 +2,7 @@ from django.db import models
 from driver.models import Vehicle
 
 
+
 # Create your models here.
 class VehicleStatus(models.Model):
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
@@ -10,3 +11,6 @@ class VehicleStatus(models.Model):
 
     def __str__(self):
         return str(self.vehicle) + self.assigned + self.status
+
+
+

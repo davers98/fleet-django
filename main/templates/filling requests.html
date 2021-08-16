@@ -17,11 +17,12 @@
                 <table id="example1" class="table table-bordered table-striped">
                           <thead>
                                 <tr>
-                                  <th>Number</th>
-                                  <th>Date</th>
+                                    <th>Number</th>
+                                    <th>Date</th>
+                                    <th>Requesting Driver</th>
                                     <th>Approved By</th>
-                                  <th>Fuel</th>
-                                  <th>Liters</th>
+                                    <th>Fuel</th>
+                                    <th>Liters</th>
                                     <th>Vehicle</th>
                                     <th>Status</th>
                                     <th>Update</th>
@@ -31,30 +32,32 @@
                               <tbody>
                                {% for obj in trips %}
                        <tr>
-                               <td><a href="">{{ obj.number }}</a></td>
-                                      <td>{{ obj.date }}</td>
+                                        <td>{{ obj.number }}</td>
+                                        <td>{{ obj.date }}</td>
+                                        <td>{{ obj.driver }}</td>
                                         <td>{{ obj.approved }}</td>
-                                      <td>{{ obj.fuel }}</td>
-                                       <td>{{ obj.liters }}</td>
+                                        <td>{{ obj.fuel }}</td>
+                                        <td>{{ obj.liters }}</td>
                                         <td>{{ obj.vehicle }}</td>
-                                            <td>{{ obj.status }}</td>
+                                        <td>{{ obj.status }}</td>
 
-                           <td>
-                                <a href="{% url 'main:edit_filling' obj.id %}" class="opt">
-                                <i class="ion-edit btn-small"></i>
-                                </a>
-                           </td>
+                                        <td>
+                                            <a href="{% url 'main:edit_filling' obj.id %}" class="opt">
+                                            <i class="ion-edit btn-small"></i>
+                                        </a>
+                                        </td>
 
                                 </tr>
                     {% endfor %}
                               </tbody>
                 <tfoot>
                 <tr>
-                                 <th>Number</th>
-                                  <th>Date</th>
+                                    <th>Number</th>
+                                    <th>Date</th>
+                                    <th>Requesting Driver</th>
                                     <th>Approved By</th>
-                                  <th>Fuel</th>
-                                  <th>Liters</th>
+                                    <th>Fuel</th>
+                                    <th>Liters</th>
                                     <th>Vehicle</th>
                                     <th>Status</th>
                                     <th>Update</th>
